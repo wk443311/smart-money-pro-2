@@ -1,554 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Tree Coin | Earn with Ads</title>
-    
-    <!-- Telegram & AdsGram SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
-    
-    <!-- Tailwind + Fonts + Icons -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-        /* ===== REFINED THEME: Fresh "Frosty Mint & Deep Indigo" ===== */
-        * { font-family: 'Inter', sans-serif; }
-        
-        body { 
-            background: linear-gradient(145deg, #eef2ff 0%, #e0e7ff 100%);
-            transition: background 0.3s, color 0.2s;
-            padding-bottom: 80px;
-        }
-        
-        /* Dark mode inspired by deep twilight */
-        body.dark {
-            background: linear-gradient(145deg, #0f172a 0%, #111827 100%);
-            color: #e2e8f0;
-        }
-        
-        /* Cards: soft, elevated with subtle border */
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(2px);
-            border-radius: 32px;
-            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.02);
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-        
-        body.dark .card {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(2px);
-            border-color: rgba(71, 85, 105, 0.5);
-            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.4);
-        }
-        
-        /* Glassmorphic header with new tint */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-        }
-        
-        body.dark .glass-nav {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom-color: #334155;
-        }
-        
-        /* Bottom navigation - frosted */
-        .bottom-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(99, 102, 241, 0.25);
-            transition: 0.2s;
-        }
-        
-        body.dark .bottom-nav {
-            background: #1e293b;
-            border-top-color: #334155;
-        }
-        
-        /* Primary button: Indigo gradient with fresh glow */
-        .btn-primary {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.4);
-            transition: transform 0.1s ease, box-shadow 0.2s;
-            border: none;
-        }
-        .btn-primary:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(79,70,229,0.5);}
-        
-        /* Badge soft indigo */
-        .badge-blue { background: #e0e7ff; color: #3730a3; border-radius: 40px; }
-        body.dark .badge-blue { background: #2e3a5f; color: #a5b4fc; }
-        
-        /* Support FAB: fresh emerald */
-        .support-circle {
-            background: linear-gradient(145deg, #10b981, #059669);
-            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.5);
-        }
-        
-        /* Inputs modern with minty accent on focus */
-        .input-modern {
-            background: #f9fafb;
-            border: 1px solid #e2e8f0;
-            border-radius: 28px;
-            padding: 12px 18px;
-            width: 100%;
-            transition: 0.2s;
-        }
-        body.dark .input-modern {
-            background: #0f172f;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        .input-modern:focus { outline: none; border-color: #8b5cf6; box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
-        
-        .fade-in { animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.25s ease; }
-        .nav-link.active { color: #8b5cf6; text-shadow: 0 0 6px rgba(139,92,246,0.3);}
-        
-        /* LARGE AD BUTTON - Refreshed theme: vibrant indigo + emerald accents */
-        .ad-button-container {
-            margin: 20px 0 10px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        .embedded-ad-btn {
-            width: 100%;
-            max-width: 300px;
-            background: linear-gradient(125deg, #4f46e5, #7c3aed, #3b82f6);
-            background-size: 200% auto;
-            border-radius: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 25px 35px -12px rgba(79, 70, 229, 0.5);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,240,0.3);
-            padding: 20px 18px;
-            text-align: center;
-            margin: 0 auto;
-        }
-        .embedded-ad-btn:active {
-            transform: scale(0.96);
-        }
-        .embedded-ad-btn i {
-            font-size: 40px;
-            color: white;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
-            margin-bottom: 6px;
-        }
-        .embedded-ad-btn .btn-title {
-            font-weight: 800;
-            font-size: 24px;
-            background: linear-gradient(135deg, #ffffff, #fef9c3);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 0.5px;
-        }
-        .embedded-ad-btn .reward-text {
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff4e0;
-            margin-top: 6px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        .embedded-ad-btn .ad-counter {
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 6px 18px;
-            font-size: 13px;
-            font-weight: bold;
-            margin-top: 10px;
-            color: #fef9c3;
-            display: inline-block;
-        }
-        body.dark .embedded-ad-btn .ad-counter {
-            background: rgba(0,0,0,0.45);
-        }
-        
-        /* Text colour updates for fresh mood */
-        .text-primary { color: #2e1065; }
-        body.dark .text-primary { color: #c4b5fd; }
-        .text-secondary { color: #334155; }
-        body.dark .text-secondary { color: #9ca3af; }
-        .bg-soft-blue { background: #e0e7ff; }
-        body.dark .bg-soft-blue { background: #2e3a5f; }
-        
-        /* Subtle glowing elements */
-        .balance-glow {
-            background: linear-gradient(120deg, #4f46e5, #8b5cf6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        hr { border-color: #cbd5e1; }
-        body.dark hr { border-color: #334155; }
-        
-        /* Responsive refinements */
-        .nav-link i { transition: all 0.2s; }
-        .nav-link:hover i { transform: translateY(-2px); color: #8b5cf6; }
-        
-        /* Admin button */
-        .admin-glow {
-            background: linear-gradient(95deg, #4f46e5, #8b5cf6);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>বিজ্ঞাপন দেখুন</title>
+  <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center; padding: 20px;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: #333; min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    #ad-counter {
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 24px;
+      padding: 10px 20px; background: rgba(255,255,255,0.95);
+      border-radius: 25px; display: inline-block;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2); color: #555;
+    }
+    .ad-container {
+      background: #fff; padding: 40px 32px; border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+      max-width: 450px; width: 100%; animation: slideUp 0.4s ease;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .ad-container h2 { font-size: 1.8rem; margin-bottom: 16px; color: #2d3748; }
+    .ad-container p { color: #718096; margin-bottom: 24px; line-height: 1.5; }
+    .btn {
+      padding: 14px 28px; margin: 10px 5px; cursor: pointer; border: none;
+      border-radius: 10px; font-size: 1rem; font-weight: 600;
+      transition: all 0.2s; width: 100%; max-width: 300px;
+    }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-primary { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+    .btn-success { background: linear-gradient(135deg, #28a745, #20c997); color: white; display: none; }
+    .hidden { display: none !important; }
+    #ad-status { margin-top: 16px; font-weight: 500; min-height: 24px; padding: 8px 12px; border-radius: 8px; }
+    .error { background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }
+    .success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
+    .warning-modal {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .warning-modal.show { display: flex; }
+    .warning-content {
+      background: #fff; padding: 32px 24px; border-radius: 16px;
+      max-width: 400px; width: 90%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideDown 0.3s ease;
+    }
+    .warning-icon { font-size: 3rem; margin-bottom: 16px; }
+    .warning-title { font-size: 1.3rem; font-weight: 700; color: #c53030; margin-bottom: 12px; }
+    .warning-message { color: #4a5568; margin-bottom: 24px; line-height: 1.5; white-space: pre-line; }
+    .warning-btn {
+      background: linear-gradient(135deg, #4facfe, #00f2fe); color: white;
+      border: none; padding: 12px 32px; border-radius: 10px;
+      font-size: 1rem; font-weight: 600; cursor: pointer;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
-<body class="max-w-md mx-auto relative">
+<body>
 
-    <!-- Loader -->
-    <div id="loader" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+  <div id="ad-counter">ads watching 5/3</div>
+
+  <div class="warning-modal" id="warningModal">
+    <div class="warning-content">
+      <div class="warning-icon">⚠️</div>
+      <div class="warning-title">সতর্কতা</div>
+      <div class="warning-message" id="warningMessage"></div>
+      <button class="warning-btn" onclick="closeWarning()">ঠিক আছে</button>
     </div>
+  </div>
 
-    <!-- Main App Container -->
-    <div id="app-container" class="min-h-screen flex flex-col relative">
-        <!-- Header with fresh branding -->
-        <header class="glass-nav sticky top-0 z-20 px-5 py-3 flex items-center justify-between backdrop-blur-md">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-bolt text-indigo-500 text-xl drop-shadow-md"></i>
-                <h1 class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">Tree Coin</h1>
-            </div>
-            <div class="flex items-center gap-4">
-                <button id="darkModeToggle" class="text-slate-700 dark:text-white transition">
-                    <i id="darkIcon" class="fas fa-moon text-lg"></i>
-                </button>
-                <div id="bellBtn" class="relative cursor-pointer">
-                    <i class="far fa-bell text-slate-700 dark:text-white text-xl"></i>
-                    <span id="notificationDot" class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full hidden"></span>
-                </div>
-                <i class="far fa-user-circle text-slate-700 dark:text-white text-2xl cursor-pointer" onclick="navigateTo('profile')"></i>
-            </div>
-        </header>
+  <div class="ad-container" id="ad-wall">
+    <h2>🔒 কন্টেন্ট লক করা আছে!</h2>
+    <p>এই কন্টেন্ট আনলক করতে নিচের বিজ্ঞাপনটি দেখুন।</p>
 
-        <main class="flex-1 px-4 py-5 space-y-6">
-            <!-- HOME PAGE (embedded ad button) New look -->
-            <div id="homePage" class="page active space-y-6">
-                <!-- Balance Card - refined accent -->
-                <div class="card p-5 flex items-center justify-between">
-                    <div>
-                        <p class="text-secondary text-sm font-semibold tracking-wide">💎 Your Balance</p>
-                        <p class="text-4xl font-black"><span class="balance-glow">৳</span><span id="balanceAmount" class="text-primary font-black">0</span></p>
-                    </div>
-                    <button id="homeWithdrawBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2.5 rounded-2xl shadow-md transition duration-200 flex items-center gap-2"><i class="fas fa-hand-holding-usd"></i> Withdraw</button>
-                </div>
-                
-                <!-- Info card - enhanced visual -->
-                <div class="card p-5 text-center">
-                    <div class="bg-indigo-100 dark:bg-indigo-900/40 w-12 h-12 flex items-center justify-center rounded-full mx-auto mb-3">
-                        <i class="fas fa-coins text-indigo-600 dark:text-indigo-300 text-2xl"></i>
-                    </div>
-                    <h3 class="font-bold text-xl text-primary">Passive Rewards</h3>
-                    <p class="text-sm text-secondary mt-1">Each completed ad = ৳10 instantly.<br>Up to <span class="font-bold text-indigo-600">10 ads daily</span>.</p>
-                </div>
-
-                <!-- LARGE WATCH AD BUTTON (NEW VIBRANT THEME) -->
-                <div class="ad-button-container">
-                    <div id="embeddedAdButton" class="embedded-ad-btn">
-                        <i class="fas fa-play-circle fa-beat-fade" style="--fa-beat-fade-opacity: 0.7; --fa-beat-fade-scale: 0.95;"></i>
-                        <div class="btn-title">WATCH AD &nbsp;▶</div>
-                        <div class="reward-text">💰 +৳10 per completed view</div>
-                        <div class="ad-counter" id="adProgressBadgeEmbedded">Today: 0/10 ads</div>
-                        <div class="reward-text text-[11px] font-medium mt-1">Tap to watch & earn</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- WALLET PAGE - clean style -->
-            <div id="walletPage" class="page space-y-5">
-                <h2 class="text-2xl font-bold text-primary flex items-center gap-2"><i class="fas fa-wallet text-indigo-500"></i> My Wallet</h2>
-                <div class="card p-5 space-y-4">
-                    <div class="flex justify-between items-end border-b border-gray-200 dark:border-gray-700 pb-3">
-                        <p class="text-secondary">💰 Current Balance</p>
-                        <p class="text-3xl font-black text-indigo-600">৳<span id="walletBalanceSpan">0</span></p>
-                    </div>
-                    <div><p class="text-sm text-secondary flex items-center gap-1"><i class="fas fa-lock-open text-xs"></i> Min. Withdrawal: ৳<span id="minWithdrawInfo">2000</span></p></div>
-                    <input type="number" id="withdrawAmountInput" placeholder="Enter amount (৳)" class="input-modern">
-                    <select id="withdrawMethodSelect" class="input-modern">
-                        <option value="">Select payment method</option>
-                        <option>Bkash</option><option>Nagad</option><option>Rocket</option><option>Bank</option>
-                    </select>
-                    <div id="dynamicPaymentField"></div>
-                    <button id="withdrawRequestBtn" class="w-full btn-primary text-white font-bold py-3 rounded-2xl shadow-lg transition">Request Withdrawal <i class="fas fa-arrow-right ml-1"></i></button>
-                </div>
-                <div><h3 class="font-semibold text-lg text-primary mb-3 flex items-center gap-2"><i class="fas fa-clock"></i> Withdrawal History</h3><div id="historyList" class="space-y-3"></div></div>
-            </div>
-
-            <!-- PROFILE PAGE (Privacy & Policy section) redesigned -->
-            <div id="profilePage" class="page space-y-6">
-                <div class="flex flex-col items-center">
-                    <div class="relative">
-                        <img id="profileAvatar" src="https://placehold.co/100x100/4f46e5/ffffff?text=🍎" class="w-24 h-24 rounded-full object-cover border-4 border-indigo-300 shadow-lg">
-                    </div>
-                    <h2 id="profileName" class="text-xl font-bold text-primary mt-3">User</h2>
-                    <p id="profileUsername" class="text-secondary flex items-center gap-1"><i class="fab fa-telegram text-sm"></i> @username</p>
-                </div>
-                <div class="card p-5 space-y-3">
-                    <div class="flex justify-between items-center"><span class="text-secondary">📅 Joined via</span><span id="joinedViaText" class="font-medium text-primary bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-full">Telegram</span></div>
-                    <div class="flex justify-between items-center"><span class="text-secondary">🆔 User ID</span><span id="userIdText" class="font-mono text-primary text-sm bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">-</span></div>
-                </div>
-                
-                <!-- Professional Privacy & Policy Section - elevated card -->
-                <div class="card p-5 space-y-3">
-                    <h3 class="font-bold text-lg flex items-center gap-2 text-primary"><i class="fas fa-shield-alt text-emerald-500"></i> Privacy & Policy</h3>
-                    <div class="text-xs text-secondary space-y-2 leading-relaxed">
-                        <p>✅ <strong>Data Security:</strong> Your personal data is encrypted and never shared with third parties. We only store necessary information for withdrawal processing.</p>
-                        <p>✅ <strong>Fair Earning:</strong> Each user can watch up to 10 ads daily. Every completed ad rewards ৳10 instantly to your wallet.</p>
-                        <p>✅ <strong>Withdrawal Terms:</strong> Minimum withdrawal is ৳2000. Requests are processed within 24-48 business hours via selected payment methods.</p>
-                        <p>✅ <strong>No Bots/Fraud:</strong> Using automated scripts or fake views will result in permanent account ban without refund.</p>
-                        <p>✅ <strong>Support:</strong> For any issues, contact our support via the green floating button.</p>
-                        <p class="pt-1 text-center text-[10px] text-slate-400">Last updated: April 2026 | SmartMoney Pro</p>
-                    </div>
-                </div>
-                
-                <div id="adminPanelLink" class="hidden"><button onclick="navigateTo('admin')" class="w-full admin-glow text-white font-bold py-3 rounded-2xl shadow-md flex items-center justify-center gap-2"><i class="fas fa-chart-line"></i> Admin Dashboard</button></div>
-            </div>
-
-            <!-- NOTIFICATIONS -->
-            <div id="notificationsPage" class="page"><h2 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="far fa-bell"></i> Inbox</h2><div id="notifList" class="space-y-3"></div></div>
-
-            <!-- ADMIN PANEL (hidden) -->
-            <div id="adminPage" class="page space-y-5">
-                <div class="flex items-center gap-3"><button onclick="navigateTo('profile')" class="text-secondary hover:text-indigo-600 transition"><i class="fas fa-arrow-left text-xl"></i></button><h2 class="text-2xl font-bold text-primary">Admin Control</h2></div>
-                <div class="card p-5 space-y-3"><h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-gift text-indigo-500"></i> Broadcast Bonus</h3><input id="bonusAmountInput" type="number" placeholder="Bonus amount (৳)" class="input-modern"><button id="sendBonusAllBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-2xl transition">Send to all users</button></div>
-                <div class="card p-5 space-y-2"><h3 class="font-bold text-primary"><i class="fas fa-chart-simple"></i> Ad Stats</h3><div id="zoneStatsMini" class="text-sm text-secondary space-y-1"></div><button id="manualReportBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl mt-3 transition"><i class="fas fa-paper-plane mr-2"></i>Send Manual Report</button></div>
-            </div>
-        </main>
-
-        <!-- Bottom Navigation - with refined active style -->
-        <nav class="bottom-nav fixed bottom-0 left-0 right-0 max-w-md mx-auto flex justify-around items-center py-2 px-4 border-t z-20">
-            <a href="#" class="nav-link flex flex-col items-center gap-0.5 text-secondary" data-page="home"><i class="fas fa-home text-xl"></i><span class="text-[11px] font-medium">Home</span></a>
-            <a href="#" class="nav-link flex flex-col items-center gap-0.5 text-secondary" data-page="wallet"><i class="fas fa-wallet text-xl"></i><span class="text-[11px] font-medium">Wallet</span></a>
-            <a href="#" class="nav-link flex flex-col items-center gap-0.5 text-secondary" data-page="profile"><i class="fas fa-user text-xl"></i><span class="text-[11px] font-medium">Profile</span></a>
-        </nav>
-
-        <!-- Support Button (emerald fresh) -->
-        <div id="supportFab" class="fixed bottom-24 right-5 support-circle w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-xl z-30 transition hover:scale-105"><i class="fas fa-headset text-white text-xl"></i></div>
-
-        <!-- Alert Modal - new style -->
-        <div id="customAlert" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"><div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-xs text-center shadow-2xl border border-indigo-100 dark:border-indigo-800"><i class="fas fa-bell text-indigo-500 text-3xl mb-2"></i><p id="alertMsg" class="mb-5 text-slate-800 dark:text-white font-medium"></p><button id="alertCloseBtn" class="bg-gradient-to-r from-indigo-500 to-indigo-700 px-6 py-2 rounded-full text-white shadow">Got it</button></div></div>
+    <button class="btn btn-primary" id="watch-ad-btn">🔓 আনলক করতে বিজ্ঞাপন দেখুন</button>
+    
+    <div id="loading-ad" class="hidden">
+      <div style="margin: 20px 0;">
+        <div style="width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top-color: #4facfe; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+      </div>
+      বিজ্ঞাপন লোড হচ্ছে...
     </div>
+    
+    <button class="btn btn-success" id="unlocked-btn">✅ সফলভাবে আনলক হয়েছে!</button>
+    
+    <div id="ad-status"></div>
+  </div>
 
-    <script>
-        // ========== CONFIG (unchanged mechanism) ==========
-        const CONFIG = {
-            minWithdrawal: 2000,
-            dailyAdLimit: 10,
-            adReward: 10,
-            adsgramBlockId: "int-32882",
-            telegramChannel: "https://t.me/+tLB334Ko71tjY2Y1",
-            botToken: "7793213912:AAFvPB1DZ8nrkUzXpwZPeXxplw6BNrirPxs",
-            reportChannelId: "-1003331749273",
-            adminId: "7793213912"
-        };
-        
-        let tg = window.Telegram.WebApp;
-        let currentUser = null, userData = null;
-        let adsGramCount = 0;
-        let adsGramReady = false;
-        let AdController = null;
-        let isAdShowing = false;
+  <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
-        // Storage helpers (untouched)
-        function getUserKey(uid) { return `user_${uid}`; }
-        function loadUser(uid) { const raw = localStorage.getItem(getUserKey(uid)); return raw ? JSON.parse(raw) : null; }
-        function saveUser(uid, data) { localStorage.setItem(getUserKey(uid), JSON.stringify(data)); }
-        function getWithdrawals(uid) { return JSON.parse(localStorage.getItem(`withdrawals_${uid}`) || '[]'); }
-        function saveWithdrawal(uid, wd) { const arr = getWithdrawals(uid); arr.push(wd); localStorage.setItem(`withdrawals_${uid}`, JSON.stringify(arr)); }
+  <script>
+    const BLOCK_ID = "int-32882";
+    const NEXT_PAGE = "https://t.me/get_linkViral_bot/app"; // বা আপনার Telegram Mini App লিংক ৩
+    const MIN_WATCH_SEC = 9;
+    const AUTO_REDIRECT_SEC = 15;
 
-        // UI Updates (cosmetic but unchanged logic)
-        function updateUI() {
-            if(!userData) return;
-            document.getElementById('balanceAmount').innerText = userData.balance;
-            document.getElementById('walletBalanceSpan').innerText = userData.balance;
-            document.getElementById('profileName').innerText = userData.name;
-            document.getElementById('profileUsername').innerText = '@'+(userData.username||'user');
-            document.getElementById('joinedViaText').innerText = userData.joinedVia;
-            document.getElementById('userIdText').innerText = currentUser?.id;
-            const badge = document.getElementById('adProgressBadgeEmbedded');
-            if(badge) badge.innerText = `Today: ${adsGramCount}/${CONFIG.dailyAdLimit} ads`;
+    const watchAdBtn = document.getElementById('watch-ad-btn');
+    const loadingAd = document.getElementById('loading-ad');
+    const unlockedBtn = document.getElementById('unlocked-btn');
+    const adStatus = document.getElementById('ad-status');
+    const warningModal = document.getElementById('warningModal');
+    const warningMessage = document.getElementById('warningMessage');
+
+    let adWatched = false;
+    let AdController = null;
+    let adStartTime = null;
+    let autoRedirectTimer = null;
+
+    function triggerAdWarning(message) {
+      adStatus.textContent = message;
+      adStatus.className = 'error';
+      warningMessage.textContent = message;
+      warningModal.classList.add('show');
+    }
+
+    function closeWarning() { warningModal.classList.remove('show'); }
+    warningModal.addEventListener('click', (e) => { if (e.target === warningModal) closeWarning(); });
+
+    function showAdsGramAd() {
+      if (adWatched) return;
+      try { AdController = window.Adsgram.init({ blockId: BLOCK_ID }); }
+      catch (initError) { triggerAdWarning("AdsGram লোড হয়নি। দয়া করে Ad Blocker বন্ধ করুন।"); return; }
+
+      watchAdBtn.classList.add('hidden');
+      loadingAd.classList.remove('hidden');
+      adStatus.textContent = ''; adStatus.className = '';
+      adStartTime = Date.now();
+
+      autoRedirectTimer = setTimeout(() => {
+        if (!adWatched) {
+          adWatched = true;
+          adStatus.textContent = "⏱️ সময় শেষ! পরবর্তী পেজে যাচ্ছে...";
+          adStatus.className = 'success';
+          setTimeout(() => { window.location.href = NEXT_PAGE; }, 500);
         }
+      }, AUTO_REDIRECT_SEC * 1000);
 
-        // AdsGram initialization (identical)
-        function initAdsGram() {
-            if(!window.Adsgram) { setTimeout(initAdsGram, 1500); return; }
-            try {
-                AdController = window.Adsgram.init({ blockId: CONFIG.adsgramBlockId });
-                if(AdController) adsGramReady = true;
-                else setTimeout(initAdsGram, 2000);
-            } catch(e) { setTimeout(initAdsGram, 2000); }
-        }
+      AdController.show()
+        .then((result) => {
+          clearTimeout(autoRedirectTimer);
+          const watchDuration = (Date.now() - adStartTime) / 1000;
+          if (watchDuration < MIN_WATCH_SEC) {
+            loadingAd.classList.add('hidden');
+            watchAdBtn.classList.remove('hidden');
+            triggerAdWarning(`⚠️ বিজ্ঞাপন খুব তাড়াতাড়ি বন্ধ করা হয়েছে!\nঅনুগ্রহ করে অন্তত ${MIN_WATCH_SEC} সেকেন্ড দেখুন।`);
+            adStartTime = null; return;
+          }
+          loadingAd.classList.add('hidden');
+          adWatched = true;
+          adStatus.textContent = "✅ বিজ্ঞাপন সম্পন্ন! পরবর্তী পেজে যাচ্ছে...";
+          adStatus.className = 'success';
+          setTimeout(() => { window.location.href = NEXT_PAGE; }, 800);
+        })
+        .catch((error) => {
+          clearTimeout(autoRedirectTimer);
+          loadingAd.classList.add('hidden');
+          watchAdBtn.classList.remove('hidden');
+          const errorMsg = error?.message || "কোনো বিজ্ঞাপন পাওয়া যায়নি বা লোড হয়নি";
+          triggerAdWarning(errorMsg);
+          adStartTime = null;
+        });
+    }
 
-        // MAIN AD CLAIM FUNCTION (fully preserved logic)
-        async function claimAdReward() {
-            if(!adsGramReady) { showAlert("Ad system is initializing. Please wait."); return; }
-            if(isAdShowing) { showAlert("Ad is already playing. Please wait."); return; }
-            if(adsGramCount >= CONFIG.dailyAdLimit) {
-                const now = new Date(), tomorrow = new Date(now);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0,0,0,0);
-                const hoursLeft = Math.floor((tomorrow - now) / (1000*60*60));
-                const minsLeft = Math.floor(((tomorrow - now) % (1000*60*60)) / (1000*60));
-                showAlert(`Daily limit reached (${adsGramCount}/${CONFIG.dailyAdLimit}). Reset in ${hoursLeft}h ${minsLeft}m.`);
-                return;
-            }
-            isAdShowing = true;
-            const adBtn = document.getElementById('embeddedAdButton');
-            adBtn.style.opacity = '0.6';
-            adBtn.style.pointerEvents = 'none';
-            try {
-                showAlert("Loading ad... Please wait.");
-                if(AdController) {
-                    await AdController.show();
-                    adsGramCount++;
-                    userData.adsGramCount = adsGramCount;
-                    userData.balance = (userData.balance || 0) + CONFIG.adReward;
-                    userData.lastAdsDate = new Date().toISOString().split('T')[0];
-                    saveUser(currentUser.id, userData);
-                    updateUI();
-                    showAlert(`🎉 +৳${CONFIG.adReward} earned! (${adsGramCount}/${CONFIG.dailyAdLimit})`);
-                } else throw new Error("AdController missing");
-            } catch(error) { showAlert("Failed to show ad. Please try again."); } 
-            finally { isAdShowing = false; adBtn.style.opacity = '1'; adBtn.style.pointerEvents = 'auto'; }
-        }
+    watchAdBtn.addEventListener('click', showAdsGramAd);
+    window.addEventListener('load', () => {
+      if (typeof window.Adsgram === 'undefined') {
+        triggerAdWarning("AdsGram SDK লোড হয়নি। দয়া করে Ad Blocker বন্ধ করুন।");
+      }
+    });
+  </script>
 
-        // Withdrawal logic (unchanged)
-        async function handleWithdraw() {
-            const amt = parseInt(document.getElementById('withdrawAmountInput').value);
-            const method = document.getElementById('withdrawMethodSelect').value;
-            const detail = document.getElementById('paymentDetailField')?.value;
-            if(!amt || amt < CONFIG.minWithdrawal) return showAlert(`Minimum withdrawal ৳${CONFIG.minWithdrawal}`);
-            if(amt > userData.balance) return showAlert("Insufficient balance");
-            if(!method || !detail) return showAlert("Fill all fields");
-            saveWithdrawal(currentUser.id, { amount: amt, method, paymentDetails: detail, status: "pending", requestedAt: new Date().toISOString() });
-            userData.balance -= amt;
-            saveUser(currentUser.id, userData);
-            updateUI();
-            loadHistory();
-            showAlert("Withdrawal request submitted! Processed within 24-48h.");
-            document.getElementById('withdrawAmountInput').value = '';
-            if(document.getElementById('paymentDetailField')) document.getElementById('paymentDetailField').value = '';
-        }
-
-        function loadHistory() {
-            const list = getWithdrawals(currentUser.id);
-            const container = document.getElementById('historyList');
-            if(!list.length) { container.innerHTML = '<div class="text-center text-secondary py-4">No withdrawals yet 📭</div>'; return; }
-            container.innerHTML = list.reverse().map(w => `<div class="card p-3 flex justify-between items-center"><div><p class="font-bold text-primary">৳${w.amount} - ${w.method}</p><p class="text-xs text-secondary">${new Date(w.requestedAt).toLocaleDateString()}</p></div><span class="text-xs font-semibold px-2 py-1 rounded-full ${w.status==='pending'?'bg-amber-100 text-amber-700 dark:bg-amber-800/30':'bg-green-100 text-green-700'}">${w.status}</span></div>`).join('');
-        }
-
-        function updatePaymentField() {
-            const m = document.getElementById('withdrawMethodSelect').value;
-            const container = document.getElementById('dynamicPaymentField');
-            let placeholder = "Enter payment details";
-            if(m === 'Bkash') placeholder = "Bkash number";
-            else if(m === 'Nagad') placeholder = "Nagad number";
-            else if(m === 'Rocket') placeholder = "Rocket number";
-            else if(m === 'Bank') placeholder = "Bank account details";
-            container.innerHTML = `<input id="paymentDetailField" class="input-modern" placeholder="${placeholder}">`;
-        }
-
-        function loadNotif() {
-            const list = [
-                {title: "Payment Update", msg: "Minimum withdrawal is 2000 BDT. Keep earning!"},
-                {title: "Welcome!", msg: "Watch ads using the button on Home page and earn instantly."},
-                {title: "New Feature", msg: "Only AdsGram ads available now. Simple & fast earnings."}
-            ];
-            const container = document.getElementById('notifList');
-            container.innerHTML = list.map(n => `<div class="card p-4"><div class="flex items-start gap-3"><i class="fas fa-bell text-indigo-400 mt-1"></i><div><h3 class="font-bold text-primary">${n.title}</h3><p class="text-sm text-secondary">${n.msg}</p><span class="text-[10px] text-slate-400">Just now</span></div></div></div>`).join('');
-        }
-
-        function sendBonusAll() {
-            const amt = parseInt(document.getElementById('bonusAmountInput').value);
-            if(!amt) return showAlert("Enter amount");
-            for(let i=0; i<localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if(key?.startsWith('user_')) {
-                    const u = JSON.parse(localStorage.getItem(key));
-                    u.balance = (u.balance || 0) + amt;
-                    localStorage.setItem(key, JSON.stringify(u));
-                }
-            }
-            if(userData) { userData.balance += amt; saveUser(currentUser.id, userData); updateUI(); }
-            showAlert(`Bonus ৳${amt} sent to all users.`);
-        }
-
-        async function sendReport() {
-            let totalUsers = 0;
-            for(let i=0; i<localStorage.length; i++) if(localStorage.key(i)?.startsWith('user_')) totalUsers++;
-            const msg = `📊 SmartMoney Pro Report\n👥 Total users: ${totalUsers}\n📺 Ads watched today: ${adsGramCount}/${CONFIG.dailyAdLimit}\n💰 User balance (sample): ${userData?.balance || 0} BDT`;
-            try { await fetch(`https://api.telegram.org/bot${CONFIG.botToken}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ chat_id: CONFIG.reportChannelId, text: msg }) }); showAlert("Report sent"); } catch(e) { showAlert("Report error"); }
-        }
-
-        function navigateTo(page) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(`${page}Page`).classList.add('active');
-            if(page === 'wallet') loadHistory();
-            if(page === 'notifications') loadNotif();
-            if(page === 'admin') document.getElementById('zoneStatsMini').innerHTML = `📈 Ads watched: ${adsGramCount}/${CONFIG.dailyAdLimit}`;
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            if(page === 'home') document.querySelector('.nav-link[data-page="home"]')?.classList.add('active');
-            if(page === 'wallet') document.querySelector('.nav-link[data-page="wallet"]')?.classList.add('active');
-            if(page === 'profile') document.querySelector('.nav-link[data-page="profile"]')?.classList.add('active');
-        }
-        window.navigateTo = navigateTo;
-
-        function showAlert(msg) { const el = document.getElementById('customAlert'); document.getElementById('alertMsg').innerText = msg; el.classList.remove('hidden'); document.getElementById('alertCloseBtn').onclick = () => el.classList.add('hidden'); }
-
-        function initDark() {
-            const isDark = localStorage.getItem('theme') === 'dark';
-            if(isDark) document.body.classList.add('dark');
-            document.getElementById('darkModeToggle').onclick = () => {
-                document.body.classList.toggle('dark');
-                localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-                const icon = document.getElementById('darkIcon');
-                icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
-            };
-        }
-
-        function startApp() {
-            tg.ready(); tg.expand();
-            const u = tg.initDataUnsafe.user;
-            if(!u) { showAlert("Please open inside Telegram"); return; }
-            currentUser = { id: u.id.toString(), firstName: u.first_name || '', username: u.username || '', photo_url: u.photo_url };
-            let stored = loadUser(currentUser.id);
-            const today = new Date().toISOString().split('T')[0];
-            if(!stored) { stored = { uid: currentUser.id, name: currentUser.firstName, username: currentUser.username, balance: 0, adsGramCount: 0, lastAdsDate: today, joinedVia: 'Telegram' }; saveUser(currentUser.id, stored); }
-            userData = stored;
-            if(userData.lastAdsDate !== today) { userData.adsGramCount = 0; userData.lastAdsDate = today; saveUser(currentUser.id, userData); }
-            adsGramCount = userData.adsGramCount || 0;
-            updateUI();
-            if(currentUser.id === CONFIG.adminId) document.getElementById('adminPanelLink').classList.remove('hidden');
-            loadNotif();
-        }
-
-        document.getElementById('homeWithdrawBtn').onclick = () => navigateTo('wallet');
-        document.getElementById('withdrawRequestBtn').onclick = handleWithdraw;
-        document.getElementById('withdrawMethodSelect').onchange = updatePaymentField;
-        document.getElementById('sendBonusAllBtn').onclick = sendBonusAll;
-        document.getElementById('manualReportBtn').onclick = sendReport;
-        document.getElementById('bellBtn').onclick = () => navigateTo('notifications');
-        document.getElementById('supportFab').onclick = () => tg.openLink("https://t.me/smartmoneypro_bot");
-        document.getElementById('embeddedAdButton').onclick = claimAdReward;
-        document.querySelectorAll('.nav-link').forEach(link => { link.onclick = (e) => { e.preventDefault(); navigateTo(link.dataset.page); }; });
-        
-        initDark();
-        initAdsGram();
-        startApp();
-    </script>
 </body>
 </html>
